@@ -36,6 +36,7 @@ export function useRelayTransfer({
 }: UseRelayTransferOptions) {
   const [status, setStatus] = useState<TransferStatus>("idle");
   const [fileInfos, setFileInfos] = useState<FileTransferInfo[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
 
   const receiveBufferRef = useRef<
     Record<
@@ -266,6 +267,13 @@ export function useRelayTransfer({
     [roomCode, status, onProgress]
   );
 
+  const togglePause = useCallback(() => {
+    setIsPaused((prev) => !prev);
+    toast({
+      title: isPaused ? "▶️ Transfer resumed" : "⏸️ Transfer paused",
+    });
+  }, [isPaused]);
+
   return {
     status,
     fileInfos,
@@ -274,5 +282,7 @@ export function useRelayTransfer({
     startReceiver,
     sendFiles,
     cleanup,
+    isPaused,
+    togglePause,
   };
 }

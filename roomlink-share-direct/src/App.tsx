@@ -12,6 +12,7 @@ import SendRoom from "./pages/SendRoom";
 import ReceiveRoom from "./pages/ReceiveRoom";
 import NotFound from "./pages/NotFound";
 
+
 const queryClient = new QueryClient();
 
 const App = () => {

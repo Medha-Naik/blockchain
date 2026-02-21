@@ -8,7 +8,9 @@ export const ENV = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   
   // CORS
-  CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
+  CORS_ORIGIN: process.env.CORS_ORIGIN || (process.env.NODE_ENV === 'production' 
+    ? ['https://justpost-frontend.onrender.com'] 
+    : ['http://localhost:8080', 'http://localhost:3000']),
   
   // File Transfer
   MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE) || 500 * 1024 * 1024, // 500MB
