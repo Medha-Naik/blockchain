@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 import Index from "./pages/Index";
 import SendRoom from "./pages/SendRoom";
 import ReceiveRoom from "./pages/ReceiveRoom";
@@ -20,8 +21,13 @@ const App = () => {
       console.log("Connected to backend:", socket.id);
     });
 
+    socket.on("error-message", (message) => {
+      console.error("Socket error:", message);
+    });
+
     return () => {
       socket.off("connect");
+      socket.off("error-message");
     };
   }, []);
 
@@ -30,6 +36,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <ConnectionStatus />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

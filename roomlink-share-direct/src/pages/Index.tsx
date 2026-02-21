@@ -56,7 +56,8 @@ const Index = () => {
 
   const handleCreateRoom = async () => {
     try {
-      const res = await fetch("https://justpost-151e.onrender.com/api/create-room", {
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+      const res = await fetch(`${BACKEND_URL}/api/create-room`, {
         method: "POST",
       });
 

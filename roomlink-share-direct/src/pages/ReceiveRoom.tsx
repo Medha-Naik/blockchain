@@ -14,12 +14,14 @@ import {
   WifiOff,
   Wifi,
   AlertCircle,
+  Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { useWebRTC, FileTransferInfo, TransferStatus } from "@/hooks/useWebRTC";
+import { Badge } from "@/components/ui/badge";
+import { useRelayTransfer, FileTransferInfo, TransferStatus } from "@/hooks/useRelayTransfer";
 import { toast } from "@/hooks/use-toast";
 
 function formatSize(bytes: number): string {
@@ -77,7 +79,7 @@ const ReceiveRoom = () => {
     );
   }, []);
 
-  const { status, startReceiver } = useWebRTC({
+  const { status, startReceiver } = useRelayTransfer({
     role: "receiver",
     roomCode: activeCode ?? "",
     onFilesReceived: handleFilesReceived,
@@ -118,7 +120,13 @@ const ReceiveRoom = () => {
             <ArrowLeft className="w-4 h-4" />
             <span className="font-bold">RoomLink</span>
           </button>
-          <StatusBadge status={status} />
+          <div className="flex items-center gap-3">
+            <Badge variant="outline" className="gap-1.5">
+              <Shield className="w-3 h-3 text-success" />
+              <span className="text-xs">IP Hidden</span>
+            </Badge>
+            <StatusBadge status={status} />
+          </div>
         </div>
       </header>
 

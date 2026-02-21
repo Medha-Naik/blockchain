@@ -3,13 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import {
   Copy, Check, Upload, X, FileText, Image, Film, Archive, ArrowLeft,
-  Zap, Lock, Wifi, WifiOff, Loader2, SendHorizontal
+  Zap, Lock, Wifi, WifiOff, Loader2, SendHorizontal, Shield
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { useWebRTC, FileTransferInfo } from "@/hooks/useWebRTC";
+import { useRelayTransfer, FileTransferInfo } from "@/hooks/useRelayTransfer";
 import { toast } from "@/hooks/use-toast";
 
 const MAX_TOTAL_SIZE = 500 * 1024 * 1024 ; // 500MB
@@ -64,7 +64,7 @@ const SendRoom = () => {
     setFileInfos((prev) => prev.map((f) => (f.name === fileName ? { ...f, progress } : f)));
   }, []);
 
-  const { status, startSender, sendFiles } = useWebRTC({
+  const { status, startSender, sendFiles } = useRelayTransfer({
     role: "sender",
     roomCode: roomCode ?? "",
     onProgress: handleProgress,
@@ -139,7 +139,13 @@ const SendRoom = () => {
               <span className="font-bold text-foreground">RoomLink</span>
             </div>
           </button>
-          <StatusBadge status={status} />
+          <div className="flex items-center gap-3">
+            <Badge variant="outline" className="gap-1.5">
+              <Shield className="w-3 h-3 text-success" />
+              <span className="text-xs">IP Hidden</span>
+            </Badge>
+            <StatusBadge status={status} />
+          </div>
         </div>
       </header>
 
